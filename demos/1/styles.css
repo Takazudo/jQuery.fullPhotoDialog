@@ -1,0 +1,75 @@
+.ui-domwindowdialog {
+  background:#000;
+  color:#fff;
+  overflow:hidden;
+}
+  .ui-domwindowdialog a {
+    color:#fff;
+    text-decoration:none;
+  }
+
+.ui-fullphotodialog-gallery {
+  width:300px;
+  height:300px;
+  margin:0 auto;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+  cursor:move;
+  position:absolute;
+  visibility:hidden; /* make this visible via JS */
+}
+.ui-fullphotodialog-gallery,
+.ui-fullphotodialog-gallery * {
+  -webkit-touch-callout: none;
+  touch-callout: none;
+}
+  .ui-fullphotodialog-gallery-inner {
+    position:absolute;
+    left:0;
+    top:0;
+    height:100%;
+    width:600px;
+  }
+    .ui-fullphotodialog-galleryitem {
+      float:left;
+      height:100%;
+      width:300px;
+      font-size:100px;
+      text-align:center;
+      margin:0 0 0 20px;
+      background:#333;
+    }
+    .ui-fullphotodialog-galleryitem:first-child {
+      margin-left:0;
+    }
+    .ui-fullphotodialog-galleryitem img {
+      display:block;
+      margin:0 auto;
+    }
+
+.ui-fullphotodialog {
+  width:100%;
+  height:100%;
+  position:relative;
+  box-sizing:border-box;
+}
+  .ui-fullphotodialog-close {
+    position:absolute;
+    right:0;
+    top:0;
+    width:30px;
+    height:30px;
+    line-height:30px;
+    font-size:30px;
+  }
+  .ui-fullphotodialog-caption {
+    text-align:center;
+    color:#fff;
+    position:absolute;
+    left:0;
+    bottom:0;
+    right:0;
+    line-height:30px;
+  }
