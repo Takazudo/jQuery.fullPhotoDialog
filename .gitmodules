@@ -1,0 +1,12 @@
+[submodule "jQuery.ui.domwindow"]
+	path = jQuery.ui.domwindow
+	url = git://github.com/Takazudo/jQuery.ui.domwindow.git
+[submodule "jQuery.touchdragh"]
+	path = jQuery.touchdragh
+	url = git://github.com/Takazudo/jQuery.touchdragh.git
+[submodule "jQuery.imgUtil"]
+	path = jQuery.imgUtil
+	url = git://github.com/Takazudo/jQuery.imgUtil.git
+[submodule "jQuery.ImgLoader"]
+	path = jQuery.ImgLoader
+	url = git://github.com/Takazudo/jQuery.ImgLoader.git
