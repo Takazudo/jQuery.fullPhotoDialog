@@ -40,13 +40,13 @@
       text-align:center;
       margin:0 0 0 20px;
       background:#333;
+      position:relative;
     }
     .ui-fullphotodialog-galleryitem:first-child {
       margin-left:0;
     }
     .ui-fullphotodialog-galleryitem img {
-      display:block;
-      margin:0 auto;
+      position:absolute;
     }
 
 .ui-fullphotodialog {

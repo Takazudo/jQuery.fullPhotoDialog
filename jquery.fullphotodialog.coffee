@@ -57,39 +57,19 @@ do ($=jQuery, window=window, document=document) ->
 
   # image putter
 
-  ns.putOrAdjustImgInside = ($el, containerWidth, containerHeight) ->
+  ns.putOrAdjustImgInside = ($el) ->
 
-    src = $el.attr('data-fullphotodialog-src')
     imgLoaded = $el.data('imgloaded') is true
 
-    containerWH =
-      width: containerWidth
-      height: containerHeight
-
-    unless imgLoaded
-      $el.empty()
-      (new Spinner(ns.options.spinner)).spin $el[0]
-
-    $.imgUtil.calcRectFitImgWH(src, containerWH).done (res) ->
-
-      $el.data 'imgloaded', true
-      $img = res.img
-      
-      # always refresh image because photos got bugged on iOS
-      setTimeout ->
-        $el.empty().append $img
-      , 10
-      mt = undefined
-      if res.height < containerHeight
-        mt = Math.floor((containerHeight / 2) - (res.height / 2))
-      else
-        mt = 0
-      $img.css
-        width: res.width
-        height: res.height
-        marginTop: mt
-
-
+    if imgLoaded
+      $el.refreshImgContainRect()
+    else
+      src = $el.attr('data-fullphotodialog-src')
+      $el.imgContainRect
+        oninit: =>
+          $el.data 'imgloaded', true
+          (new Spinner(ns.options.spinner)).spin $el[0]
+        src: src
 
   # ============================================================
   # event module
@@ -174,7 +154,7 @@ do ($=jQuery, window=window, document=document) ->
       $items = @$steppyRoot.find(".ui-fullphotodialog-galleryitem")
       wh = @calcSteppySize()
       $items.each (i, el) ->
-        ns.putOrAdjustImgInside $(el), wh.width, wh.height
+        ns.putOrAdjustImgInside $(el)
       return this
 
     fitDialog: ->

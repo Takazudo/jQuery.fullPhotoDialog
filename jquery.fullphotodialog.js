@@ -1,5 +1,5 @@
 /*! jQuery.fullPhotoDialog (https://github.com/Takazudo/jQuery.fullPhotoDialog)
- * lastupdate: 2013-05-21
+ * lastupdate: 2013-05-25
  * version: 0.0.0
  * author: 'Takazudo' Takeshi Takatsudo <takazudo@gmail.com>
  * License: MIT */
@@ -34,37 +34,22 @@
       });
       return src;
     };
-    ns.putOrAdjustImgInside = function($el, containerWidth, containerHeight) {
-      var containerWH, imgLoaded, src;
-      src = $el.attr('data-fullphotodialog-src');
+    ns.putOrAdjustImgInside = function($el) {
+      var imgLoaded, src,
+        _this = this;
       imgLoaded = $el.data('imgloaded') === true;
-      containerWH = {
-        width: containerWidth,
-        height: containerHeight
-      };
-      if (!imgLoaded) {
-        $el.empty();
-        (new Spinner(ns.options.spinner)).spin($el[0]);
-      }
-      return $.imgUtil.calcRectFitImgWH(src, containerWH).done(function(res) {
-        var $img, mt;
-        $el.data('imgloaded', true);
-        $img = res.img;
-        setTimeout(function() {
-          return $el.empty().append($img);
-        }, 10);
-        mt = void 0;
-        if (res.height < containerHeight) {
-          mt = Math.floor((containerHeight / 2) - (res.height / 2));
-        } else {
-          mt = 0;
-        }
-        return $img.css({
-          width: res.width,
-          height: res.height,
-          marginTop: mt
+      if (imgLoaded) {
+        return $el.refreshImgContainRect();
+      } else {
+        src = $el.attr('data-fullphotodialog-src');
+        return $el.imgContainRect({
+          oninit: function() {
+            $el.data('imgloaded', true);
+            return (new Spinner(ns.options.spinner)).spin($el[0]);
+          },
+          src: src
         });
-      });
+      }
     };
     ns.Event = (function() {
 
@@ -174,7 +159,7 @@
         $items = this.$steppyRoot.find(".ui-fullphotodialog-galleryitem");
         wh = this.calcSteppySize();
         $items.each(function(i, el) {
-          return ns.putOrAdjustImgInside($(el), wh.width, wh.height);
+          return ns.putOrAdjustImgInside($(el));
         });
         return this;
       };
