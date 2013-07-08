@@ -19,7 +19,8 @@ do ($=jQuery, window=window, document=document) ->
 
   ns.options.src_dialog = """
     <div class="ui-fullphotodialog">
-      <p class="ui-fullphotodialog-close"><a class="apply-domwindow-close" href="#">×</a></p>
+      <div class="ui-fullphotodialog-close"><a class="apply-domwindow-close" href="#">×</a></div>
+      <a class="ui-fullphotodialog-openblank" href="#" target="_blank">OPEN</a>
       <div class="ui-fullphotodialog-gallery">
         <div class="ui-fullphotodialog-gallery-inner">
           ___xxx___ITEMSSRC___xxx___
@@ -152,7 +153,17 @@ do ($=jQuery, window=window, document=document) ->
 
       return this
 
+    attachCurrentImgLink: ($a) ->
+
+      item = @itemsData[ @steppyInstance.currentIndex ]
+      $a.attr 'href', item.src
+      return this
+
     initializeInside: ($dialogRoot) ->
+
+      $dialogRoot.on 'click', '.ui-fullphotodialog-openblank', (e) =>
+        $a = $(e.currentTarget)
+        @attachCurrentImgLink($a)
 
       $dialogRoot.on 'touchmove', (e) ->
         e.preventDefault()
@@ -183,7 +194,7 @@ do ($=jQuery, window=window, document=document) ->
 
       return this
 
-    open: (itemsData) ->
+    open: (@itemsData) ->
 
       src = @createDialogSrc itemsData
 

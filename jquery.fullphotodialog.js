@@ -17,7 +17,7 @@
       length: 12,
       radius: 20
     };
-    ns.options.src_dialog = "<div class=\"ui-fullphotodialog\">\n  <p class=\"ui-fullphotodialog-close\"><a class=\"apply-domwindow-close\" href=\"#\">×</a></p>\n  <div class=\"ui-fullphotodialog-gallery\">\n    <div class=\"ui-fullphotodialog-gallery-inner\">\n      ___xxx___ITEMSSRC___xxx___\n    </div>\n  </div>\n  <div class=\"ui-fullphotodialog-caption\"></div>\n</div>";
+    ns.options.src_dialog = "<div class=\"ui-fullphotodialog\">\n  <div class=\"ui-fullphotodialog-close\"><a class=\"apply-domwindow-close\" href=\"#\">×</a></div>\n  <a class=\"ui-fullphotodialog-openblank\" href=\"#\" target=\"_blank\">OPEN</a>\n  <div class=\"ui-fullphotodialog-gallery\">\n    <div class=\"ui-fullphotodialog-gallery-inner\">\n      ___xxx___ITEMSSRC___xxx___\n    </div>\n  </div>\n  <div class=\"ui-fullphotodialog-caption\"></div>\n</div>";
     ns.options.src_item = "<div\n  data-fullphotodialog-caption=\"___xxx___CAPTION___xxx___\"\n  data-fullphotodialog-src=\"___xxx___SRC___xxx___\"\n  class=\"ui-fullphotodialog-galleryitem\"\n></div>";
     ns.winHeight = function() {
       return window.innerHeight || $window.height();
@@ -133,8 +133,20 @@
         return this;
       };
 
+      FullPhotoDialog.prototype.attachCurrentImgLink = function($a) {
+        var item;
+        item = this.itemsData[this.steppyInstance.currentIndex];
+        $a.attr('href', item.src);
+        return this;
+      };
+
       FullPhotoDialog.prototype.initializeInside = function($dialogRoot) {
         var _this = this;
+        $dialogRoot.on('click', '.ui-fullphotodialog-openblank', function(e) {
+          var $a;
+          $a = $(e.currentTarget);
+          return _this.attachCurrentImgLink($a);
+        });
         $dialogRoot.on('touchmove', function(e) {
           return e.preventDefault();
         });
@@ -168,6 +180,7 @@
       FullPhotoDialog.prototype.open = function(itemsData) {
         var src,
           _this = this;
+        this.itemsData = itemsData;
         src = this.createDialogSrc(itemsData);
         window.domwindowApi.open(src, {
           strdialog: true,

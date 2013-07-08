@@ -64,6 +64,14 @@
     line-height:30px;
     font-size:30px;
   }
+  .ui-fullphotodialog-openblank {
+    position:absolute;
+    left:0;
+    top:0;
+    line-height:25px;
+    padding:5px 5px 0 5px;
+    font-size:13px;
+  }
   .ui-fullphotodialog-caption {
     text-align:center;
     color:#fff;
