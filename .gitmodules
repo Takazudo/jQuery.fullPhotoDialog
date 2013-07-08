@@ -10,3 +10,6 @@
 [submodule "jQuery.ImgLoader"]
 	path = jQuery.ImgLoader
 	url = git://github.com/Takazudo/jQuery.ImgLoader.git
+[submodule "EveEve"]
+	path = EveEve
+	url = https://github.com/Takazudo/EveEve.git
