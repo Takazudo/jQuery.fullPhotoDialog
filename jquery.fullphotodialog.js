@@ -1,5 +1,5 @@
 /*! jQuery.fullPhotoDialog (https://github.com/Takazudo/jQuery.fullPhotoDialog)
- * lastupdate: 2013-07-08
+ * lastupdate: 2013-07-09
  * version: 0.0.0
  * author: 'Takazudo' Takeshi Takatsudo <takazudo@gmail.com>
  * License: MIT */
@@ -42,6 +42,7 @@
       } else {
         src = $el.attr('data-fullphotodialog-src');
         return $el.imgContainRect({
+          cloneImg: false,
           oninit: function() {
             $el.data('imgloaded', true);
             return (new Spinner(ns.options.spinner)).spin($el[0]);

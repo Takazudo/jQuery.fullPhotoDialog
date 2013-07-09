@@ -67,6 +67,7 @@ do ($=jQuery, window=window, document=document) ->
     else
       src = $el.attr('data-fullphotodialog-src')
       $el.imgContainRect
+        cloneImg: false
         oninit: =>
           $el.data 'imgloaded', true
           (new Spinner(ns.options.spinner)).spin $el[0]
