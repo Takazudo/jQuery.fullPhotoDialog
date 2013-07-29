@@ -46,7 +46,6 @@ do ($=jQuery, window=window, document=document) ->
 
   ns.browser = {}
   ns.browser.android = /android/i.test navigator.userAgent
-  ns.browser.android = true
   
   # winsize
   

@@ -22,7 +22,6 @@
     ns.options.src_item = "<div\n  data-fullphotodialog-caption=\"___xxx___CAPTION___xxx___\"\n  data-fullphotodialog-src=\"___xxx___SRC___xxx___\"\n  class=\"ui-fullphotodialog-galleryitem\"\n></div>";
     ns.browser = {};
     ns.browser.android = /android/i.test(navigator.userAgent);
-    ns.browser.android = true;
     ns.winHeight = function() {
       return window.innerHeight || $window.height();
     };
