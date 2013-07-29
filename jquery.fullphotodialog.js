@@ -1,5 +1,5 @@
 /*! jQuery.fullPhotoDialog (https://github.com/Takazudo/jQuery.fullPhotoDialog)
- * lastupdate: 2013-07-09
+ * lastupdate: 2013-07-29
  * version: 0.0.0
  * author: 'Takazudo' Takeshi Takatsudo <takazudo@gmail.com>
  * License: MIT */
@@ -9,6 +9,7 @@
     var $window, ns;
     $window = $(window);
     ns = {};
+    ns.resizeCount = 0;
     ns.options = {};
     ns.options.spinner = {
       color: '#fff',
@@ -19,6 +20,9 @@
     };
     ns.options.src_dialog = "<div class=\"ui-fullphotodialog\">\n  <div class=\"ui-fullphotodialog-close\"><a class=\"apply-domwindow-close\" href=\"#\">×</a></div>\n  <a class=\"ui-fullphotodialog-openblank\" href=\"#\" target=\"_blank\">OPEN</a>\n  <div class=\"ui-fullphotodialog-gallery\">\n    <div class=\"ui-fullphotodialog-gallery-inner\">\n      ___xxx___ITEMSSRC___xxx___\n    </div>\n  </div>\n  <div class=\"ui-fullphotodialog-caption\"></div>\n</div>";
     ns.options.src_item = "<div\n  data-fullphotodialog-caption=\"___xxx___CAPTION___xxx___\"\n  data-fullphotodialog-src=\"___xxx___SRC___xxx___\"\n  class=\"ui-fullphotodialog-galleryitem\"\n></div>";
+    ns.browser = {};
+    ns.browser.android = /android/i.test(navigator.userAgent);
+    ns.browser.android = true;
     ns.winHeight = function() {
       return window.innerHeight || $window.height();
     };
@@ -69,14 +73,41 @@
       };
 
       FullPhotoDialog.prototype._eventify = function() {
-        var _this = this;
+        var handler,
+          _this = this;
+        if (ns.browser.android) {
+          handler = function(checkLater) {
+            var currentResizeCount;
+            currentResizeCount = ns.resizeCount;
+            if (!_this.$dialog.is(":visible")) {
+              return;
+            }
+            _this.fitDialog();
+            _this.updateSteppySize();
+            _this.handleImgs();
+            if (!checkLater) {
+              return;
+            }
+            return setTimeout(function() {
+              if (ns.resizeCount !== currentResizeCount) {
+                return;
+              }
+              return handler();
+            }, 500);
+          };
+        } else {
+          handler = function() {
+            if (!_this.$dialog.is(":visible")) {
+              return;
+            }
+            _this.fitDialog();
+            _this.updateSteppySize();
+            return _this.handleImgs();
+          };
+        }
         $window.bind("resize orientationchange", function() {
-          if (!_this.$dialog.is(":visible")) {
-            return;
-          }
-          _this.fitDialog();
-          _this.updateSteppySize();
-          return _this.handleImgs();
+          ns.resizeCount += 1;
+          return handler(true);
         });
         return this;
       };
