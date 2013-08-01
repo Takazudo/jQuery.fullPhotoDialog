@@ -4,7 +4,6 @@ do ($=jQuery, window=window, document=document) ->
   $window = $(window)
 
   ns = {}
-  ns.resizeCount = 0 # use this to avoid android bug
 
   # ============================================================
   # options
@@ -42,11 +41,6 @@ do ($=jQuery, window=window, document=document) ->
   # ============================================================
   # utils
 
-  # browser
-
-  ns.browser = {}
-  ns.browser.android = /android/i.test navigator.userAgent
-  
   # winsize
   
   ns.winHeight = ->
@@ -102,30 +96,11 @@ do ($=jQuery, window=window, document=document) ->
 
     _eventify: ->
 
-      # android browser can't handle resize or orientation immediately sometimes.
-      # so check it after seconds, too
-      if ns.browser.android
-        handler = (checkLater) =>
-          currentResizeCount = ns.resizeCount
-          return unless @$dialog.is(":visible")
-          @fitDialog()
-          @updateSteppySize()
-          @handleImgs()
-          return unless checkLater
-          setTimeout =>
-            return unless ns.resizeCount is currentResizeCount
-            handler()
-          , 500
-      else
-        handler = =>
-          return unless @$dialog.is(":visible")
-          @fitDialog()
-          @updateSteppySize()
-          @handleImgs()
-
-      $window.bind "resize orientationchange", ->
-        ns.resizeCount += 1
-        handler true
+      $window.bind "resize orientationchange", =>
+        return unless @$dialog.is(":visible")
+        @fitDialog()
+        @updateSteppySize()
+        @handleImgs()
 
       return this
       
