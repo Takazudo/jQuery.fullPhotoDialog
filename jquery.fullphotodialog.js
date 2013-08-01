@@ -179,16 +179,18 @@
       };
 
       FullPhotoDialog.prototype.open = function(itemsData) {
-        var src,
+        var defer, src,
           _this = this;
         this.itemsData = itemsData;
+        defer = $.Deferred();
         src = this.createDialogSrc(itemsData);
         window.domwindowApi.open(src, {
           strdialog: true,
           width: ns.winWidth(),
           height: ns.winHeight(),
           afteropen: function(e, data) {
-            return _this.initializeInside(data.dialog);
+            _this.initializeInside(data.dialog);
+            return defer.resolve();
           },
           beforeclose: function() {
             var $steppyRoot, steppyInstance;
@@ -196,7 +198,7 @@
             return steppyInstance = null;
           }
         });
-        return this;
+        return defer.promise();
       };
 
       FullPhotoDialog.prototype.createDialogSrc = function(itemsData) {

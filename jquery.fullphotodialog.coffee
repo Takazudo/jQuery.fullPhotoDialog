@@ -198,6 +198,7 @@ do ($=jQuery, window=window, document=document) ->
 
     open: (@itemsData) ->
 
+      defer = $.Deferred()
       src = @createDialogSrc itemsData
 
       window.domwindowApi.open src,
@@ -206,11 +207,12 @@ do ($=jQuery, window=window, document=document) ->
         height: ns.winHeight()
         afteropen: (e, data) =>
           @initializeInside data.dialog
+          defer.resolve()
         beforeclose: =>
           $steppyRoot = null
           steppyInstance = null
 
-      return this
+      return defer.promise()
 
     createDialogSrc: (itemsData) ->
       itemsSrc = ''
